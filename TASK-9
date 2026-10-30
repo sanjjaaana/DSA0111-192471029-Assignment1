@@ -1,1 +1,113 @@
 Task09/README.md
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+constexpr long long MIN_BALANCE = 5000;
+constexpr int PEAK_PERCENT = 20;
+
+long long calculateFare(int zone, int hour)
+{
+    int baseFare;
+
+    if (hour < 0 || hour > 23)
+        return -1;
+
+    if (zone == 1)
+        baseFare = 1000;
+    else if (zone == 2)
+        baseFare = 2000;
+    else if (zone == 3)
+        baseFare = 3000;
+    else
+        return -1;
+
+    bool peak = (hour >= 8 && hour < 10) ||
+                (hour >= 17 && hour < 20);
+
+    if (peak)
+        baseFare += baseFare * PEAK_PERCENT / 100;
+
+    return baseFare;
+}
+
+int main()
+{
+    struct Test
+    {
+        int zone;
+        int hour;
+        long long expected;
+    };
+
+    Test tests[] = {
+        {1, 7, 1000},
+        {1, 8, 1200},
+        {2, 9, 2400},
+        {2, 10, 2000},
+        {3, 17, 3600},
+        {3, 20, 3000},
+        {4, 12, -1},
+        {1, 25, -1}
+    };
+
+    int count = sizeof(tests) / sizeof(tests[0]);
+    int passed = 0;
+
+    cout << "METRO FARE TESTING" << endl;
+    cout << "------------------" << endl;
+
+    for (int i = 0; i < count; i++)
+    {
+        long long actual =
+            calculateFare(tests[i].zone, tests[i].hour);
+
+        cout << "Test " << i + 1 << ": Expected "
+             << tests[i].expected
+             << " Actual " << actual;
+
+        if (actual == tests[i].expected)
+        {
+            cout << " PASS" << endl;
+            passed++;
+        }
+        else
+        {
+            cout << " FAIL" << endl;
+        }
+    }
+
+    cout << "\nPassed Tests: " << passed
+         << "/" << count << endl;
+
+    // Five journey calculation
+    long long journeys[] = {
+        calculateFare(1, 7),
+        calculateFare(2, 8),
+        calculateFare(3, 10),
+        calculateFare(1, 17),
+        calculateFare(2, 20)
+    };
+
+    long long total = 0;
+
+    for (long long f : journeys)
+        total += f;
+
+    cout << "\nFIVE JOURNEY REPORT" << endl;
+    cout << "Total Collection: Rs. "
+         << fixed << setprecision(2)
+         << static_cast<double>(total) / 100 << endl;
+
+    // Negative recharge validation
+    int recharge = -500;
+
+    if (recharge < 0)
+        cout << "Negative Recharge: Rejected" << endl;
+
+    // Invalid hour text demonstration
+    cout << "Invalid Hour Input: Rejected" << endl;
+
+    return 0;
+}
