@@ -1,1 +1,77 @@
 Task03/README.md
+
+#include <iostream>
+#include <climits>
+#include <iomanip>
+using namespace std;
+
+int main() {
+
+    // Different data types
+    bool active = true;
+    char zoneCode = 'C';
+    int journeyCount = 1000;
+    long long balancePaise = 500000;
+    unsigned int zoneNumber = 2;
+    float travelTime = 2.5f;
+    double averageTime = 2.75;
+    auto farePaise = 2500LL;
+
+    // Money stored in paise
+    long long fare1 = 1000;
+    long long fare2 = 2000;
+    long long totalPaise = fare1 + fare2;
+
+    // Demonstrating double precision problem
+    double amount1 = 0.1;
+    double amount2 = 0.2;
+    double doubleTotal = amount1 + amount2;
+
+    cout << "DATA TYPE DETAILS" << endl;
+    cout << "-----------------" << endl;
+
+    cout << "Boolean: " << active << endl;
+    cout << "Character: " << zoneCode << endl;
+    cout << "Journey Count: " << journeyCount << endl;
+    cout << "Balance in Paise: " << balancePaise << endl;
+    cout << "Zone Number: " << zoneNumber << endl;
+    cout << "Travel Time: " << travelTime << endl;
+    cout << "Average Time: " << averageTime << endl;
+    cout << "Auto Fare: " << farePaise << endl;
+
+    cout << "\nMEMORY SIZE" << endl;
+    cout << "-----------" << endl;
+
+    cout << "bool: " << sizeof(bool) << " bytes" << endl;
+    cout << "char: " << sizeof(char) << " bytes" << endl;
+    cout << "int: " << sizeof(int) << " bytes" << endl;
+    cout << "long long: " << sizeof(long long) << " bytes" << endl;
+    cout << "unsigned int: " << sizeof(unsigned int) << " bytes" << endl;
+    cout << "float: " << sizeof(float) << " bytes" << endl;
+    cout << "double: " << sizeof(double) << " bytes" << endl;
+
+    cout << "\nMONEY CALCULATION" << endl;
+    cout << "-----------------" << endl;
+    cout << "Total Fare: " << totalPaise << " paise" << endl;
+    cout << "Total Fare: Rs. " << fixed << setprecision(2)
+         << totalPaise / 100.0 << endl;
+
+    cout << "\nDOUBLE PRECISION PROBLEM" << endl;
+    cout << "------------------------" << endl;
+    cout << setprecision(17);
+    cout << "0.1 + 0.2 = " << doubleTotal << endl;
+
+    cout << "\nINTEGER LIMITS" << endl;
+    cout << "--------------" << endl;
+    cout << "INT MIN: " << INT_MIN << endl;
+    cout << "INT MAX: " << INT_MAX << endl;
+    cout << "LONG LONG MAX: " << LLONG_MAX << endl;
+
+    cout << "\nTYPE COMPATIBILITY" << endl;
+    cout << "------------------" << endl;
+    cout << "Integer + Double: " << 10 + 2.5 << endl;
+    cout << "Integer + Boolean: " << 10 + true << endl;
+
+    return 0;
+}
+
