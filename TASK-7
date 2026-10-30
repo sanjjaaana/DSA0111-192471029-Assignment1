@@ -1,1 +1,76 @@
 Task07/README.md
+
+#include <iostream>
+using namespace std;
+
+constexpr long long MIN_BALANCE = 5000;
+
+// Procedural approach
+bool proceduralCanTravel(long long balance, long long fare)
+{
+    return balance - fare >= MIN_BALANCE;
+}
+
+void proceduralDeduct(long long &balance, long long fare)
+{
+    if (proceduralCanTravel(balance, fare))
+    {
+        balance -= fare;
+        cout << "Procedural: Journey Allowed" << endl;
+    }
+    else
+    {
+        cout << "Procedural: Journey Denied" << endl;
+    }
+}
+
+// Object-oriented approach
+class SmartCard
+{
+private:
+    long long balance;
+
+public:
+    SmartCard(long long amount)
+    {
+        balance = amount;
+    }
+
+    bool canTravel(long long fare)
+    {
+        return balance - fare >= MIN_BALANCE;
+    }
+
+    void deduct(long long fare)
+    {
+        if (canTravel(fare))
+        {
+            balance -= fare;
+            cout << "OOP: Journey Allowed" << endl;
+        }
+        else
+        {
+            cout << "OOP: Journey Denied" << endl;
+        }
+    }
+
+    long long getBalance()
+    {
+        return balance;
+    }
+};
+
+int main()
+{
+    long long balance = 10000;
+    long long fare = 3000;
+
+    proceduralDeduct(balance, fare);
+    cout << "Procedural Balance: " << balance << " paise" << endl;
+
+    SmartCard card(10000);
+    card.deduct(fare);
+    cout << "OOP Balance: " << card.getBalance() << " paise" << endl;
+
+    return 0;
+}
