@@ -1,1 +1,77 @@
 Task11/README.md
+1. Aim
+To recommend the best design for the metro fare system by comparing data types, constants, functions, classes, and fare configuration methods.
+2. Recommended design
+1. Use enum class Zone to represent Inner, Middle, and Outer zones.
+2. Use long long to store money in paise and avoid floating-point errors.
+3. Use constexpr for fixed values such as base fares, peak surcharge, and minimum balance.
+4. Use separate functions to calculate fares and check whether a passenger can travel.
+5. Use a SmartCard class to protect the card balance and control fare deductions.
+6. Use arrays or a fare table to store zone fares instead of repeating values in multiple places.
+7. Keep fare calculation, balance management, and user input as separate parts of the program.
+3. Why is this design better?
+- It is easy to understand and maintain.
+- It reduces repeated code.
+- It prevents accidental changes to important card balances.
+- It uses integer paise for accurate money calculations.
+- It makes it easier to add new zones and change fares.
+4. Changing fare values
+If the Inner zone fare changes from Rs 10 to Rs 12, only the fare table or configuration value needs to be updated.
+
+If the fares are stored directly in the program, the program must be recompiled and redeployed after a change.
+5. Configuration file vs compiled values
+Compiled fare values	Configuration file
+Fares are stored in the code.	Fares are stored separately.
+Requires recompilation to change fares.	Can change fares without recompiling.
+Simple and fast to start.	Requires reading and checking the file.
+Suitable for small systems.	Suitable for large systems with frequent fare changes.
+
+6. Complexity
+Operation	Time complexity
+Fare lookup using an array	O(1)
+Peak-hour checking	O(1)
+Balance checking	O(1)
+Fare deduction	O(1)
+
+7. Conclusion
+The best design is to use enum class, constexpr, integer paise, separate functions, and a SmartCard class. A configuration file is useful when fares change frequently. This design is accurate, safe, and easy to extend.
+Task 11 – C++ program
+Save this as Task11.cpp. It demonstrates the recommended design using an enum, constants, integer paise, and a fare table.
+
+#include <iostream>
+using namespace std;
+
+enum class Zone { Inner, Middle, Outer };
+
+constexpr int fares[] = {1000, 2000, 3000};
+constexpr int PEAK_PERCENT = 20;
+
+int calculateFare(Zone zone, bool peak) {
+    int fare = fares[static_cast<int>(zone)];
+
+    if (peak) {
+        fare = fare + (fare * PEAK_PERCENT / 100);
+    }
+
+    return fare;
+}
+
+int main() {
+    int fare1 = calculateFare(Zone::Inner, false);
+    int fare2 = calculateFare(Zone::Outer, true);
+
+    cout << "Inner Fare: Rs " << fare1 / 100.0 << endl;
+    cout << "Outer Peak Fare: Rs " << fare2 / 100.0 << endl;
+
+    return 0;
+}
+
+
+
+Expected output
+Inner Fare: Rs 10
+Outer Peak Fare: Rs 36
+
+
+Complexity: Fare lookup and calculation take O(1) time. The fare table uses O(1) space because it has a fixed number of entries.
+
