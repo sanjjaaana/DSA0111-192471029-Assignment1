@@ -1,1 +1,101 @@
 Task12/README.md
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+enum class Zone { Inner, Middle, Outer, Airport };
+
+constexpr int fares[] = {1000, 2000, 3000, 6000};
+constexpr int PEAK_PERCENT = 20;
+constexpr int WEEKEND_DISCOUNT = 10;
+constexpr int MIN_BALANCE = 5000;
+
+int calculateFare(Zone zone, bool weekend, bool peak) {
+    int fare = fares[static_cast<int>(zone)];
+
+    if (weekend) {
+        fare = fare - (fare * WEEKEND_DISCOUNT / 100);
+    }
+    else if (peak) {
+        fare = fare + (fare * PEAK_PERCENT / 100);
+    }
+
+    return fare;
+}
+
+class MonthlyPass {
+private:
+    Zone zone1;
+    Zone zone2;
+
+public:
+    MonthlyPass(Zone z1, Zone z2) {
+        zone1 = z1;
+        zone2 = z2;
+    }
+
+    bool allowsTravel(Zone zone) {
+        return zone == zone1 || zone == zone2;
+    }
+};
+
+class SmartCard {
+private:
+    int balance;
+
+public:
+    SmartCard(int amount) {
+        balance = amount;
+    }
+
+    void travel(Zone zone, bool weekend, bool peak,
+                MonthlyPass &pass) {
+
+        if (pass.allowsTravel(zone)) {
+            cout << "Monthly Pass: Free Journey" << endl;
+            return;
+        }
+
+        int fare = calculateFare(zone, weekend, peak);
+
+        if (balance - fare >= MIN_BALANCE) {
+            balance = balance - fare;
+
+            cout << "Fare: Rs " << fare / 100.0 << endl;
+            cout << "Journey Allowed" << endl;
+        }
+        else {
+            cout << "Journey Denied: Low Balance" << endl;
+        }
+    }
+
+    void showBalance() {
+        cout << "Remaining Balance: Rs "
+             << balance / 100.0 << endl;
+    }
+};
+
+int main() {
+    MonthlyPass pass(Zone::Inner, Zone::Airport);
+    SmartCard card(20000);
+
+    cout << fixed << setprecision(2);
+
+    cout << "Airport Weekend Journey" << endl;
+    card.travel(Zone::Airport, true, false, pass);
+
+    cout << "\nMiddle Peak Journey" << endl;
+    card.travel(Zone::Middle, false, true, pass);
+
+    cout << "\nInner Zone Journey" << endl;
+    card.travel(Zone::Inner, false, false, pass);
+
+    cout << "\nAirport Weekday Peak Journey" << endl;
+    card.travel(Zone::Airport, false, true, pass);
+
+    cout << endl;
+    card.showBalance();
+
+    return 0;
+}
