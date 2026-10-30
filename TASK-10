@@ -1,1 +1,59 @@
 Task10/README.md
+
+#include <iostream>
+#include <iomanip>
+#include <climits>
+using namespace std;
+
+int main()
+{
+    int journeyCounts[] = {20000, 500000, 3000000};
+
+    const long long FARE_PAISE = 1001;
+    const double FARE_RUPEES = 10.01;
+
+    cout << fixed << setprecision(10);
+
+    cout << "METRO COLLECTION COMPARISON" << endl;
+    cout << "---------------------------" << endl;
+
+    for (int n : journeyCounts)
+    {
+        long long paiseTotal = 0;
+        double doubleTotal = 0.0;
+
+        for (int i = 0; i < n; i++)
+        {
+            paiseTotal += FARE_PAISE;
+            doubleTotal += FARE_RUPEES;
+        }
+
+        double exactTotal =
+            static_cast<double>(paiseTotal) / 100;
+
+        cout << "\nJourneys: " << n << endl;
+
+        cout << "Integer Paise Total: "
+             << paiseTotal << endl;
+
+        cout << "Integer Rupee Total: Rs. "
+             << exactTotal << endl;
+
+        cout << "Double Total: Rs. "
+             << doubleTotal << endl;
+
+        cout << "Difference: Rs. "
+             << doubleTotal - exactTotal << endl;
+
+        if (paiseTotal > INT_MAX)
+            cout << "Integer Overflow: Yes" << endl;
+        else
+            cout << "Integer Overflow: No" << endl;
+    }
+
+    cout << "\nDATA TYPE LIMITS" << endl;
+    cout << "INT MAX: " << INT_MAX << endl;
+    cout << "LONG LONG MAX: " << LLONG_MAX << endl;
+
+    return 0;
+}
